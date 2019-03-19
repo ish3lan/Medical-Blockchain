@@ -7741,18 +7741,18 @@ var TruffleSchema = {
 module.exports = TruffleSchema;
 
 },{"./package.json":20,"crypto-js/sha3":18}],17:[function(require,module,exports){
-;(function (root, factory) {
+;(function (root, manufacturer) {
 	if (typeof exports === "object") {
 		// CommonJS
-		module.exports = exports = factory();
+		module.exports = exports = manufacturer();
 	}
 	else if (typeof define === "function" && define.amd) {
 		// AMD
-		define([], factory);
+		define([], manufacturer);
 	}
 	else {
 		// Global (browser)
-		root.CryptoJS = factory();
+		root.CryptoJS = manufacturer();
 	}
 }(this, function () {
 
@@ -8502,18 +8502,18 @@ module.exports = TruffleSchema;
 
 }));
 },{}],18:[function(require,module,exports){
-;(function (root, factory, undef) {
+;(function (root, manufacturer, undef) {
 	if (typeof exports === "object") {
 		// CommonJS
-		module.exports = exports = factory(require("./core"), require("./x64-core"));
+		module.exports = exports = manufacturer(require("./core"), require("./x64-core"));
 	}
 	else if (typeof define === "function" && define.amd) {
 		// AMD
-		define(["./core", "./x64-core"], factory);
+		define(["./core", "./x64-core"], manufacturer);
 	}
 	else {
 		// Global (browser)
-		factory(root.CryptoJS);
+		manufacturer(root.CryptoJS);
 	}
 }(this, function (CryptoJS) {
 
@@ -8826,18 +8826,18 @@ module.exports = TruffleSchema;
 
 }));
 },{"./core":17,"./x64-core":19}],19:[function(require,module,exports){
-;(function (root, factory) {
+;(function (root, manufacturer) {
 	if (typeof exports === "object") {
 		// CommonJS
-		module.exports = exports = factory(require("./core"));
+		module.exports = exports = manufacturer(require("./core"));
 	}
 	else if (typeof define === "function" && define.amd) {
 		// AMD
-		define(["./core"], factory);
+		define(["./core"], manufacturer);
 	}
 	else {
 		// Global (browser)
-		factory(root.CryptoJS);
+		manufacturer(root.CryptoJS);
 	}
 }(this, function (CryptoJS) {
 

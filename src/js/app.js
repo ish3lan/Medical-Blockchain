@@ -6,7 +6,7 @@ App = {
     upc: 0,
     metamaskAccountID: "0x0000000000000000000000000000000000000000",
     ownerID: "0x0000000000000000000000000000000000000000",
-    originFarmerID: "0x0000000000000000000000000000000000000000",
+    originManufacturerID: "0x0000000000000000000000000000000000000000",
     originFarmName: null,
     originFarmInformation: null,
     originFarmLatitude: null,
@@ -14,8 +14,8 @@ App = {
     productNotes: null,
     productPrice: 0,
     distributorID: "0x0000000000000000000000000000000000000000",
-    retailerID: "0x0000000000000000000000000000000000000000",
-    consumerID: "0x0000000000000000000000000000000000000000",
+    pharmacistID: "0x0000000000000000000000000000000000000000",
+    patientID: "0x0000000000000000000000000000000000000000",
 
     init: async function () {
         App.readForm();
@@ -27,7 +27,7 @@ App = {
         App.sku = $("#sku").val();
         App.upc = $("#upc").val();
         App.ownerID = $("#ownerID").val();
-        App.originFarmerID = $("#originFarmerID").val();
+        App.originManufacturerID = $("#originManufacturerID").val();
         App.originFarmName = $("#originFarmName").val();
         App.originFarmInformation = $("#originFarmInformation").val();
         App.originFarmLatitude = $("#originFarmLatitude").val();
@@ -35,14 +35,14 @@ App = {
         App.productNotes = $("#productNotes").val();
         App.productPrice = $("#productPrice").val();
         App.distributorID = $("#distributorID").val();
-        App.retailerID = $("#retailerID").val();
-        App.consumerID = $("#consumerID").val();
+        App.pharmacistID = $("#pharmacistID").val();
+        App.patientID = $("#patientID").val();
 
         console.log(
             App.sku,
             App.upc,
             App.ownerID, 
-            App.originFarmerID, 
+            App.originManufacturerID, 
             App.originFarmName, 
             App.originFarmInformation, 
             App.originFarmLatitude, 
@@ -50,8 +50,8 @@ App = {
             App.productNotes, 
             App.productPrice, 
             App.distributorID, 
-            App.retailerID, 
-            App.consumerID
+            App.pharmacistID, 
+            App.patientID
         );
     },
 

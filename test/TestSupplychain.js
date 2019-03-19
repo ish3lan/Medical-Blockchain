@@ -7,7 +7,7 @@ contract('SupplyChain', function(accounts) {
     var sku = 1
     var upc = 1
     const ownerID = accounts[0]
-    const originFarmerID = accounts[1]
+    const originManufacturerID = accounts[1]
     const originFarmName = "John Doe"
     const originFarmInformation = "Yarray Valley"
     const originFarmLatitude = "-38.239770"
@@ -17,8 +17,8 @@ contract('SupplyChain', function(accounts) {
     const productPrice = web3.toWei(1, "ether")
     var itemState = 0
     const distributorID = accounts[2]
-    const retailerID = accounts[3]
-    const consumerID = accounts[4]
+    const pharmacistID = accounts[3]
+    const patientID = accounts[4]
     const emptyAddress = '0x00000000000000000000000000000000000000'
 
     ///Available Accounts
@@ -36,13 +36,13 @@ contract('SupplyChain', function(accounts) {
 
     console.log("ganache-cli accounts used here...")
     console.log("Contract Owner: accounts[0] ", accounts[0])
-    console.log("Farmer: accounts[1] ", accounts[1])
+    console.log("Manufacturer: accounts[1] ", accounts[1])
     console.log("Distributor: accounts[2] ", accounts[2])
-    console.log("Retailer: accounts[3] ", accounts[3])
-    console.log("Consumer: accounts[4] ", accounts[4])
+    console.log("Pharmacist: accounts[3] ", accounts[3])
+    console.log("Patient: accounts[4] ", accounts[4])
 
     // 1st Test
-    it("Testing smart contract function harvestItem() that allows a farmer to harvest medicine", async() => {
+    it("Testing smart contract function harvestItem() that allows a manufacturer to harvest medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
@@ -55,7 +55,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Harvested by calling function harvestItem()
-        await supplyChain.harvestItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes)
+        await supplyChain.harvestItem(upc, originManufacturerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes)
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -64,8 +64,8 @@ contract('SupplyChain', function(accounts) {
         // Verify the result set
         assert.equal(resultBufferOne[0], sku, 'Error: Invalid item SKU')
         assert.equal(resultBufferOne[1], upc, 'Error: Invalid item UPC')
-        assert.equal(resultBufferOne[2], originFarmerID, 'Error: Missing or Invalid ownerID')
-        assert.equal(resultBufferOne[3], originFarmerID, 'Error: Missing or Invalid originFarmerID')
+        assert.equal(resultBufferOne[2], originManufacturerID, 'Error: Missing or Invalid ownerID')
+        assert.equal(resultBufferOne[3], originManufacturerID, 'Error: Missing or Invalid originManufacturerID')
         assert.equal(resultBufferOne[4], originFarmName, 'Error: Missing or Invalid originFarmName')
         assert.equal(resultBufferOne[5], originFarmInformation, 'Error: Missing or Invalid originFarmInformation')
         assert.equal(resultBufferOne[6], originFarmLatitude, 'Error: Missing or Invalid originFarmLatitude')
@@ -75,7 +75,7 @@ contract('SupplyChain', function(accounts) {
     })    
 
     // 2nd Test
-    it("Testing smart contract function processItem() that allows a farmer to process medicine", async() => {
+    it("Testing smart contract function processItem() that allows a manufacturer to process medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
@@ -95,7 +95,7 @@ contract('SupplyChain', function(accounts) {
     })    
 
     // 3rd Test
-    it("Testing smart contract function packItem() that allows a farmer to pack medicine", async() => {
+    it("Testing smart contract function packItem() that allows a manufacturer to pack medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
@@ -115,7 +115,7 @@ contract('SupplyChain', function(accounts) {
     })    
 
     // 4th Test
-    it("Testing smart contract function sellItem() that allows a farmer to sell medicine", async() => {
+    it("Testing smart contract function sellItem() that allows a manufacturer to sell medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
@@ -176,7 +176,7 @@ contract('SupplyChain', function(accounts) {
     })    
 
     // 7th Test
-    it("Testing smart contract function receiveItem() that allows a retailer to mark medicine received", async() => {
+    it("Testing smart contract function receiveItem() that allows a pharmacist to mark medicine received", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
@@ -196,7 +196,7 @@ contract('SupplyChain', function(accounts) {
     })    
 
     // 8th Test
-    it("Testing smart contract function purchaseItem() that allows a consumer to purchase medicine", async() => {
+    it("Testing smart contract function purchaseItem() that allows a patient to purchase medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
