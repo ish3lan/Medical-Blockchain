@@ -5,6 +5,7 @@ import "./Roles.sol";
 
 // Define a contract 'PatientRole' to manage this role - add, remove, check
 contract PatientRole {
+  using Roles for Roles.Role;
 
   // Define 2 events, one for Adding, and other for Removing
   event PatientAdded(address indexed account);
