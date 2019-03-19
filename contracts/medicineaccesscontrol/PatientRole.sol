@@ -8,7 +8,7 @@ contract PatientRole {
 
   // Define 2 events, one for Adding, and other for Removing
   event PatientAdded(address indexed account);
-  event patientsRemoved(address indexed account);
+  event PatientsRemoved(address indexed account);
 
   // Define a struct 'patients' by inheriting from 'Roles' library, struct Role
   Roles.Role private patients;
