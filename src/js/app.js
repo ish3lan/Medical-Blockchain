@@ -11,8 +11,8 @@ App = {
     originFarmInformation: null,
     originFarmLatitude: null,
     originFarmLongitude: null,
-    productNotes: null,
-    productPrice: 0,
+    medicineNotes: null,
+    medicinePrice: 0,
     distributorID: "0x0000000000000000000000000000000000000000",
     pharmacistID: "0x0000000000000000000000000000000000000000",
     patientID: "0x0000000000000000000000000000000000000000",
@@ -32,8 +32,8 @@ App = {
         App.originFarmInformation = $("#originFarmInformation").val();
         App.originFarmLatitude = $("#originFarmLatitude").val();
         App.originFarmLongitude = $("#originFarmLongitude").val();
-        App.productNotes = $("#productNotes").val();
-        App.productPrice = $("#productPrice").val();
+        App.medicineNotes = $("#medicineNotes").val();
+        App.medicinePrice = $("#medicinePrice").val();
         App.distributorID = $("#distributorID").val();
         App.pharmacistID = $("#pharmacistID").val();
         App.patientID = $("#patientID").val();
@@ -47,8 +47,8 @@ App = {
             App.originFarmInformation, 
             App.originFarmLatitude, 
             App.originFarmLongitude, 
-            App.productNotes, 
-            App.productPrice, 
+            App.medicineNotes, 
+            App.medicinePrice, 
             App.distributorID, 
             App.pharmacistID, 
             App.patientID
@@ -108,8 +108,8 @@ App = {
             App.contracts.SupplyChain = TruffleContract(SupplyChainArtifact);
             App.contracts.SupplyChain.setProvider(App.web3Provider);
             
-            App.fetchItemBufferOne();
-            App.fetchItemBufferTwo();
+            App.fetchMedicineBufferOne();
+            App.fetchMedicineBufferTwo();
             App.fetchEvents();
 
         });
@@ -131,186 +131,186 @@ App = {
 
         switch(processId) {
             case 1:
-                return await App.harvestItem(event);
+                return await App.harvestMedicine(event);
                 break;
             case 2:
-                return await App.processItem(event);
+                return await App.processMedicine(event);
                 break;
             case 3:
-                return await App.packItem(event);
+                return await App.packMedicine(event);
                 break;
             case 4:
-                return await App.sellItem(event);
+                return await App.sellMedicine(event);
                 break;
             case 5:
-                return await App.buyItem(event);
+                return await App.buyMedicine(event);
                 break;
             case 6:
-                return await App.shipItem(event);
+                return await App.shipMedicine(event);
                 break;
             case 7:
-                return await App.receiveItem(event);
+                return await App.receiveMedicine(event);
                 break;
             case 8:
-                return await App.purchaseItem(event);
+                return await App.purchaseMedicine(event);
                 break;
             case 9:
-                return await App.fetchItemBufferOne(event);
+                return await App.fetchMedicineBufferOne(event);
                 break;
             case 10:
-                return await App.fetchItemBufferTwo(event);
+                return await App.fetchMedicineBufferTwo(event);
                 break;
             }
     },
 
-    harvestItem: function(event) {
+    harvestMedicine: function(event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.harvestItem(
+            return instance.harvestMedicine(
                 App.upc, 
                 App.metamaskAccountID, 
                 App.originFarmName, 
                 App.originFarmInformation, 
                 App.originFarmLatitude, 
                 App.originFarmLongitude, 
-                App.productNotes
+                App.medicineNotes
             );
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('harvestItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('harvestMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
-    processItem: function (event) {
+    processMedicine: function (event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.processItem(App.upc, {from: App.metamaskAccountID});
+            return instance.processMedicine(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('processItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('processMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
     
-    packItem: function (event) {
+    packMedicine: function (event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.packItem(App.upc, {from: App.metamaskAccountID});
+            return instance.packMedicine(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('packItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('packMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
-    sellItem: function (event) {
+    sellMedicine: function (event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            const productPrice = web3.toWei(1, "ether");
-            console.log('productPrice',productPrice);
-            return instance.sellItem(App.upc, App.productPrice, {from: App.metamaskAccountID});
+            const medicinePrice = web3.toWei(1, "ether");
+            console.log('medicinePrice',medicinePrice);
+            return instance.sellMedicine(App.upc, App.medicinePrice, {from: App.metamaskAccountID});
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('sellItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('sellMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
-    buyItem: function (event) {
+    buyMedicine: function (event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
             const walletValue = web3.toWei(3, "ether");
-            return instance.buyItem(App.upc, {from: App.metamaskAccountID, value: walletValue});
+            return instance.buyMedicine(App.upc, {from: App.metamaskAccountID, value: walletValue});
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('buyItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('buyMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
-    shipItem: function (event) {
+    shipMedicine: function (event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.shipItem(App.upc, {from: App.metamaskAccountID});
+            return instance.shipMedicine(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('shipItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('shipMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
-    receiveItem: function (event) {
+    receiveMedicine: function (event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.receiveItem(App.upc, {from: App.metamaskAccountID});
+            return instance.receiveMedicine(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('receiveItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('receiveMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
-    purchaseItem: function (event) {
+    purchaseMedicine: function (event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.purchaseItem(App.upc, {from: App.metamaskAccountID});
+            return instance.purchaseMedicine(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
-            $("#ftc-item").text(result);
-            console.log('purchaseItem',result);
+            $("#ftc-medicine").text(result);
+            console.log('purchaseMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
-    fetchItemBufferOne: function () {
+    fetchMedicineBufferOne: function () {
     ///   event.preventDefault();
     ///    var processId = parseInt($(event.target).data('id'));
         App.upc = $('#upc').val();
         console.log('upc',App.upc);
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-          return instance.fetchItemBufferOne(App.upc);
+          return instance.fetchMedicineBufferOne(App.upc);
         }).then(function(result) {
-          $("#ftc-item").text(result);
-          console.log('fetchItemBufferOne', result);
+          $("#ftc-medicine").text(result);
+          console.log('fetchMedicineBufferOne', result);
         }).catch(function(err) {
           console.log(err.message);
         });
     },
 
-    fetchItemBufferTwo: function () {
+    fetchMedicineBufferTwo: function () {
     ///    event.preventDefault();
     ///    var processId = parseInt($(event.target).data('id'));
                         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-          return instance.fetchItemBufferTwo.call(App.upc);
+          return instance.fetchMedicineBufferTwo.call(App.upc);
         }).then(function(result) {
-          $("#ftc-item").text(result);
-          console.log('fetchItemBufferTwo', result);
+          $("#ftc-medicine").text(result);
+          console.log('fetchMedicineBufferTwo', result);
         }).catch(function(err) {
           console.log(err.message);
         });
