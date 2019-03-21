@@ -154,22 +154,24 @@ contract SupplyChain {
   onlyManufacturer
 
   {
-      // Add the new medicine as part of medicines
-      Medicine memory temp_medicine = Medicine({
-        sku:sku + 1,
-        ownerID:_originManufacturerID,
-        originManufacturerID:_originManufacturerID,
-        originFactoryName:_originFactoryName,
-        originFactoryInformation:_originFactoryInformation,
-        originFactoryLatitude:_originFactoryLatitude,
-        originFactoryLongitude:_originFactoryLongitude,
-        medicineNotes:_medicineNotes
-        });
-
+    // Add the new medicine as part of medicines
+    Medicine memory temp_medicine = Medicine({
+      sku:sku + 1,
+      ownerID:_originManufacturerID,
+      originManufacturerID:_originManufacturerID,
+      originFactoryName:_originFactoryName,
+      originFactoryInformation:_originFactoryInformation,
+      originFactoryLatitude:_originFactoryLatitude,
+      originFactoryLongitude:_originFactoryLongitude,
+      medicineNotes:_medicineNotes
+      });
+    medicines[_upc] = temp_medicine;
+    medicines[_upc].medicineState = State.Made
 
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
+
     emit Made(_upc);
   }
 
@@ -177,27 +179,29 @@ contract SupplyChain {
   // Define a function 'packMedicine' that allows a manufacturer to mark an medicine 'Packed'
   function packMedicine(uint _upc) public 
   // Call modifier to check if upc has passed previous supply chain stage
-  isMade
+  made
   // Call modifier to verify caller of this function
   onlyManufacturer
   {
     // Update the appropriate fields
-    
+    medicines[_upc].medicineState = State.Packed;
+
     // Emit the appropriate event
-    
+    emit Packed(_upc);
   }
 
   // Define a function 'sellMedicine' that allows a manufacturer to mark an medicine 'ForSale'
   function sellMedicine(uint _upc, uint _price) public 
   // Call modifier to check if upc has passed previous supply chain stage
-  
+  packed
   // Call modifier to verify caller of this function
-  
+  onlyManufacturer
   {
     // Update the appropriate fields
-    
+    medicines[_upc].medicineState = State.ForSale;
+
     // Emit the appropriate event
-    
+    emit ForSale(_upc);
   }
 
   // Define a function 'buyMedicine' that allows the disributor to mark an medicine 'Sold'
@@ -205,66 +209,71 @@ contract SupplyChain {
   // and any excess ether sent is refunded back to the buyer
   function buyMedicine(uint _upc) public payable 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    forSale
     // Call modifer to check if buyer has paid enough
-    
+    paidEnough
     // Call modifer to send any excess ether back to buyer
-    
+    checkValue
+    //limit to distributers , no end consumers are allowed to buy from factory.
+    onlyDistributor
     {
 
-    // Update the appropriate fields - ownerID, distributorID, medicineState
-    
-    // Transfer money to manufacturer
-    
-    // emit the appropriate event
-    
-  }
+      // Update the appropriate fields - ownerID, distributorID, medicineState
+      medicines[_upc].medicineState = State.Sold;
+      // Transfer money to manufacturer
+      medicines[_upc].originManufacturerID.transfer(medicines[_upc].medicinePrice,{from:msg.sender});
+      // emit the appropriate event
+      emit Sold(_upc);
+    }
 
   // Define a function 'shipMedicine' that allows the distributor to mark an medicine 'Shipped'
   // Use the above modifers to check if the medicine is sold
   function shipMedicine(uint _upc) public 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    sold
     // Call modifier to verify caller of this function
-    
+    onlyManufacturer
     {
-    // Update the appropriate fields
-    
-    // Emit the appropriate event
-    
-  }
+      //check if the factory is the one making this medicine.
+      require(medicines[_upc].originManufacturerID == msg.sender)
+      // Update the appropriate fields
+      medicines[_upc].medicineState = State.Shipped       // Emit the appropriate event
+      emit Shipped(_upc);
+    }
 
   // Define a function 'receiveMedicine' that allows the pharmacist to mark an medicine 'Received'
   // Use the above modifiers to check if the medicine is shipped
   function receiveMedicine(uint _upc) public 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    shipped
     // Access Control List enforced by calling Smart Contract / DApp
     {
     // Update the appropriate fields - ownerID, pharmacistID, medicineState
-    
+    medicines[_upc].medicineState = State.Received;
+
     // Emit the appropriate event
-    
+    emit Received(_upc);
   }
 
   // Define a function 'purchaseMedicine' that allows the patient to mark an medicine 'Purchased'
   // Use the above modifiers to check if the medicine is received
   function purchaseMedicine(uint _upc) public 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    received
     // Access Control List enforced by calling Smart Contract / DApp
     {
-    // Update the appropriate fields - ownerID, patientID, medicineState
-    
-    // Emit the appropriate event
-    
-  }
+      // Up    medicines[_upc].medicineState = State.Shipped;
+      medicines[_upc].medicineState = State.Purchased;
+
+      // Emit the appropriate event
+      emit Purchased(_upc);
+    }
 
   // Define a function 'fetchMedicineBufferOne' that fetches the data
   function fetchMedicineBufferOne(uint _upc) public view returns 
   (
-    uint    medicineSKU,
-    uint    medicineUPC,
+    uint    sku,
+    uint    upc,
     address ownerID,
     address originManufacturerID,
     string  originFactoryName,
@@ -278,22 +287,22 @@ contract SupplyChain {
 
   return 
   (
-    medicineSKU,
-    medicineUPC,
-    ownerID,
-    originManufacturerID,
-    originFactoryName,
-    originFactoryInformation,
-    originFactoryLatitude,
-    originFactoryLongitude
+    medicines[_upc].sku,
+    medicines[_upc].upc,
+    medicines[_upc].ownerID,
+    medicines[_upc].originManufacturerID,
+    medicines[_upc].originFactoryName,
+    medicines[_upc].originFactoryInformation,
+    medicines[_upc].originFactoryLatitude,
+    medicines[_upc].originFactoryLongitude
     );
 }
 
   // Define a function 'fetchMedicineBufferTwo' that fetches the data
   function fetchMedicineBufferTwo(uint _upc) public view returns 
   (
-    uint    medicineSKU,
-    uint    medicineUPC,
+    uint    sku,
+    uint    upc,
     uint    medicineID,
     string  medicineNotes,
     uint    medicinePrice,
@@ -308,15 +317,14 @@ contract SupplyChain {
     
     return 
     (
-      medicineSKU,
-      medicineUPC,
-      medicineID,
-      medicineNotes,
-      medicinePrice,
-      medicineState,
-      distributorID,
-      pharmacistID,
-      patientID
+      medicines[_upc].sku,
+      medicines[_upc].medicineID,
+      medicines[_upc].medicineNotes,
+      medicines[_upc].medicinePrice,
+      medicines[_upc].medicineState,
+      medicines[_upc].distributorID,
+      medicines[_upc].pharmacistID,
+      medicines[_upc].patientID
       );
   }
 }
