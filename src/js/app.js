@@ -7,10 +7,10 @@ App = {
     metamaskAccountID: "0x0000000000000000000000000000000000000000",
     ownerID: "0x0000000000000000000000000000000000000000",
     originManufacturerID: "0x0000000000000000000000000000000000000000",
-    originFarmName: null,
-    originFarmInformation: null,
-    originFarmLatitude: null,
-    originFarmLongitude: null,
+    originFactoryName: null,
+    originFactoryInformation: null,
+    originFactoryLatitude: null,
+    originFactoryLongitude: null,
     medicineNotes: null,
     medicinePrice: 0,
     distributorID: "0x0000000000000000000000000000000000000000",
@@ -28,10 +28,10 @@ App = {
         App.upc = $("#upc").val();
         App.ownerID = $("#ownerID").val();
         App.originManufacturerID = $("#originManufacturerID").val();
-        App.originFarmName = $("#originFarmName").val();
-        App.originFarmInformation = $("#originFarmInformation").val();
-        App.originFarmLatitude = $("#originFarmLatitude").val();
-        App.originFarmLongitude = $("#originFarmLongitude").val();
+        App.originFactoryName = $("#originFactoryName").val();
+        App.originFactoryInformation = $("#originFactoryInformation").val();
+        App.originFactoryLatitude = $("#originFactoryLatitude").val();
+        App.originFactoryLongitude = $("#originFactoryLongitude").val();
         App.medicineNotes = $("#medicineNotes").val();
         App.medicinePrice = $("#medicinePrice").val();
         App.distributorID = $("#distributorID").val();
@@ -43,10 +43,10 @@ App = {
             App.upc,
             App.ownerID, 
             App.originManufacturerID, 
-            App.originFarmName, 
-            App.originFarmInformation, 
-            App.originFarmLatitude, 
-            App.originFarmLongitude, 
+            App.originFactoryName, 
+            App.originFactoryInformation, 
+            App.originFactoryLatitude, 
+            App.originFactoryLongitude, 
             App.medicineNotes, 
             App.medicinePrice, 
             App.distributorID, 
@@ -171,10 +171,10 @@ App = {
             return instance.harvestMedicine(
                 App.upc, 
                 App.metamaskAccountID, 
-                App.originFarmName, 
-                App.originFarmInformation, 
-                App.originFarmLatitude, 
-                App.originFarmLongitude, 
+                App.originFactoryName, 
+                App.originFactoryInformation, 
+                App.originFactoryLatitude, 
+                App.originFactoryLongitude, 
                 App.medicineNotes
             );
         }).then(function(result) {
