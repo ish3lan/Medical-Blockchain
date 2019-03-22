@@ -261,6 +261,7 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     received
     // Access Control List enforced by calling Smart Contract / DApp
+    onlyPatient
     {
       // Up    medicines[_upc].medicineState = State.Shipped;
       medicines[_upc].medicineState = State.Purchased;
