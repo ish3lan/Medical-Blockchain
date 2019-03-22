@@ -131,7 +131,7 @@ App = {
 
         switch(processId) {
             case 1:
-                return await App.harvestMedicine(event);
+                return await App.makeMedicine(event);
                 break;
             case 2:
                 return await App.processMedicine(event);
@@ -163,12 +163,12 @@ App = {
             }
     },
 
-    harvestMedicine: function(event) {
+    makeMedicine: function(event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.harvestMedicine(
+            return instance.makeMedicine(
                 App.upc, 
                 App.metamaskAccountID, 
                 App.originFactoryName, 
@@ -179,7 +179,7 @@ App = {
             );
         }).then(function(result) {
             $("#ftc-medicine").text(result);
-            console.log('harvestMedicine',result);
+            console.log('makeMedicine',result);
         }).catch(function(err) {
             console.log(err.message);
         });

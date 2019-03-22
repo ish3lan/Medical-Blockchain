@@ -8,10 +8,10 @@ contract('SupplyChain', function(accounts) {
     var upc = 1
     const ownerID = accounts[0]
     const originManufacturerID = accounts[1]
-    const originFarmName = "John Doe"
-    const originFarmInformation = "Yarray Valley"
-    const originFarmLatitude = "-38.239770"
-    const originFarmLongitude = "144.341490"
+    const originFactoryName = "John Doe"
+    const originFactoryInformation = "Yarray Valley"
+    const originFactoryLatitude = "-38.239770"
+    const originFactoryLongitude = "144.341490"
     var medicineID = sku + upc
     const medicineNotes = "Best beans for Espresso"
     const medicinePrice = web3.toWei(1, "ether")
@@ -42,7 +42,7 @@ contract('SupplyChain', function(accounts) {
     console.log("Patient: accounts[4] ", accounts[4])
 
     // 1st Test
-    it("Testing smart contract function harvestMedicine() that allows a manufacturer to harvest medicine", async() => {
+    it("Testing smart contract function makeMedicine() that allows a manufacturer to make medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
@@ -54,8 +54,8 @@ contract('SupplyChain', function(accounts) {
             eventEmitted = true
         })
 
-        // Mark an medicine as Made by calling function harvestMedicine()
-        await supplyChain.harvestMedicine(upc, originManufacturerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, medicineNotes)
+        // Mark an medicine as Made by calling function makeMedicine()
+        await supplyChain.makeMedicine(upc, originManufacturerID, originFactoryName, originFactoryInformation, originFactoryLatitude, originFactoryLongitude, medicineNotes)
 
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
         const resultBufferOne = await supplyChain.fetchMedicineBufferOne.call(upc)
@@ -66,10 +66,10 @@ contract('SupplyChain', function(accounts) {
         assert.equal(resultBufferOne[1], upc, 'Error: Invalid medicine UPC')
         assert.equal(resultBufferOne[2], originManufacturerID, 'Error: Missing or Invalid ownerID')
         assert.equal(resultBufferOne[3], originManufacturerID, 'Error: Missing or Invalid originManufacturerID')
-        assert.equal(resultBufferOne[4], originFarmName, 'Error: Missing or Invalid originFarmName')
-        assert.equal(resultBufferOne[5], originFarmInformation, 'Error: Missing or Invalid originFarmInformation')
-        assert.equal(resultBufferOne[6], originFarmLatitude, 'Error: Missing or Invalid originFarmLatitude')
-        assert.equal(resultBufferOne[7], originFarmLongitude, 'Error: Missing or Invalid originFarmLongitude')
+        assert.equal(resultBufferOne[4], originFactoryName, 'Error: Missing or Invalid originFactoryName')
+        assert.equal(resultBufferOne[5], originFactoryInformation, 'Error: Missing or Invalid originFactoryInformation')
+        assert.equal(resultBufferOne[6], originFactoryLatitude, 'Error: Missing or Invalid originFactoryLatitude')
+        assert.equal(resultBufferOne[7], originFactoryLongitude, 'Error: Missing or Invalid originFactoryLongitude')
         assert.equal(resultBufferTwo[5], 0, 'Error: Invalid medicine State')
         assert.equal(eventEmitted, true, 'Invalid event emitted')        
     })    
