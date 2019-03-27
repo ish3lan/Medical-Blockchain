@@ -9,7 +9,7 @@ contract PatientRole {
 
   // Define 2 events, one for Adding, and other for Removing
   event PatientAdded(address indexed account);
-  event PatientsRemoved(address indexed account);
+  event PatientRemoved(address indexed account);
 
   // Define a struct 'patients' by inheriting from 'Roles' library, struct Role
   Roles.Role private patients;
@@ -27,7 +27,7 @@ contract PatientRole {
 
   // Define a function 'isPatient' to check this role
   function isPatient(address account) public view returns (bool) {
-    return manufacturers.has(account);
+    return Roles.has(patients, account);
   }
 
   // Define a function 'addPatient' that adds this role
@@ -42,13 +42,13 @@ contract PatientRole {
 
   // Define an internal function '_addPatient' to add this role, called by 'addPatient'
   function _addPatient(address account) internal {
-    patients.add(account);
+    Roles.add(patients, account);
     emit PatientAdded(account);
   }
 
   // Define an internal function '_removePatient' to remove this role, called by 'removePatient'
   function _removePatient(address account) internal {
-    patients.remove(account);
-    emit PatientRole(account);
+    Roles.remove(patients, account);
+    emit PatientRemoved(account);
   }
 }
