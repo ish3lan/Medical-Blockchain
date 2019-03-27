@@ -14,7 +14,7 @@ contract('SupplyChain', function(accounts) {
     const originFactoryLongitude = "144.341490"
     var medicineID = sku + upc
     const medicineNotes = "Best beans for Espresso"
-    const medicinePrice = web3.toWei(1, "ether")
+    const medicinePrice = web3.utils.toWei("1", "ether")
     var medicineState = 0
     const distributorID = accounts[2]
     const pharmacistID = accounts[3]
@@ -49,10 +49,10 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Made()
-        var event = supplyChain.Made()
-        await event.watch((err, res) => {
-            eventEmitted = true
+        supplyChain.Made((err, res) => {
+            eventEmitted = true;
         })
+
 
         // Mark an medicine as Made by calling function makeMedicine()
         await supplyChain.makeMedicine(upc, originManufacturerID, originFactoryName, originFactoryInformation, originFactoryLatitude, originFactoryLongitude, medicineNotes)
@@ -60,7 +60,7 @@ contract('SupplyChain', function(accounts) {
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
         const resultBufferOne = await supplyChain.fetchMedicineBufferOne.call(upc)
         const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
-
+        const resultBufferThree = await supplyChain.fetchMedicineBufferThree.call(upc)
         // Verify the result set
         assert.equal(resultBufferOne[0], sku, 'Error: Invalid medicine SKU')
         assert.equal(resultBufferOne[1], upc, 'Error: Invalid medicine UPC')
