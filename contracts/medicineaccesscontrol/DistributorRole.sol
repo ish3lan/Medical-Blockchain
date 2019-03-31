@@ -42,7 +42,7 @@ contract DistributorRole {
 
   // Define an internal function '_addDistributor' to add this role, called by 'addDistributor'
   function _addDistributor(address account) internal {
-    // require(isDistributor(msg.sender));
+    // require(isDistributor(msg.sender), "error here");
     Roles.add(distributors, account);
     emit DistributorAdded(account);
   }
