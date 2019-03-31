@@ -273,7 +273,7 @@ contract SupplyChain is PharmacistRole, PatientRole, ManufacturerRole, Distribut
     onlyManufacturer
     {
       //check if the factory is the one making this medicine.
-      require(medicines[_upc].originManufacturerID == msg.sender);
+      require(medicines[_upc].originManufacturerID == msg.sender,"Manufacturers can ship only medicines by them");
       // Update the appropriate fields
       medicines[_upc].medicineState = State.Shipped;
       // Emit the appropriate event
