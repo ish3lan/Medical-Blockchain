@@ -62,58 +62,42 @@ contract('SupplyChain', function(accounts) {
         const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
         const resultBufferThree = await supplyChain.fetchMedicineBufferThree.call(upc)
         // Verify the result set
-        assert.equal(resultBufferOne[0], sku, 'Error: Invalid medicine SKU')
+        // console.log(resultBufferOne);
+        assert.equal(resultBufferOne[0].toNumber(), sku, 'Error: Invalid medicine SKU')
         assert.equal(resultBufferOne[1], upc, 'Error: Invalid medicine UPC')
         assert.equal(resultBufferOne[2], originManufacturerID, 'Error: Missing or Invalid ownerID')
         assert.equal(resultBufferOne[3], originManufacturerID, 'Error: Missing or Invalid originManufacturerID')
         assert.equal(resultBufferOne[4], originFactoryName, 'Error: Missing or Invalid originFactoryName')
         assert.equal(resultBufferOne[5], originFactoryInformation, 'Error: Missing or Invalid originFactoryInformation')
         assert.equal(resultBufferOne[6], originFactoryLatitude, 'Error: Missing or Invalid originFactoryLatitude')
-        assert.equal(resultBufferOne[7], originFactoryLongitude, 'Error: Missing or Invalid originFactoryLongitude')
+        assert.equal(resultBufferTwo[0], originFactoryLongitude, 'Error: Missing or Invalid originFactoryLongitude')
         assert.equal(resultBufferTwo[5], 0, 'Error: Invalid medicine State')
         assert.equal(eventEmitted, true, 'Invalid event emitted')        
     })    
 
     // 2nd Test
-    it("Testing smart contract function processMedicine() that allows a manufacturer to process medicine", async() => {
-        const supplyChain = await SupplyChain.deployed()
-        
-        // Declare and Initialize a variable for event
-        
-        
-        // Watch the emitted event Processed()
-        
-
-        // Mark an medicine as Processed by calling function processtMedicine()
-        
-
-        // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
-        
-
-        // Verify the result set
-        
-    })    
-
-    // 3rd Test
     it("Testing smart contract function packMedicine() that allows a manufacturer to pack medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
-        
+
         // Declare and Initialize a variable for event
-        
+        var eventEmitted = false
         
         // Watch the emitted event Packed()
-        
+        supplyChain.Packed((err, res) => {
+            eventEmitted = true;
+        })
 
-        // Mark an medicine as Packed by calling function packMedicine()
-        
+
+        // Mark an medicine as Packed by calling function PackMedicine()
+        await supplyChain.packMedicine(upc)
 
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
+        const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
         
-
-        // Verify the result set
-        
+        assert.equal(resultBufferTwo[3], 1, 'Error: Invalid medicine State')
+        assert.equal(eventEmitted, true, 'Invalid event emitted')    
+       
     })    
-
     // 4th Test
     it("Testing smart contract function sellMedicine() that allows a manufacturer to sell medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
@@ -131,7 +115,7 @@ contract('SupplyChain', function(accounts) {
         
 
         // Verify the result set
-          
+
     })    
 
     // 5th Test
@@ -172,7 +156,7 @@ contract('SupplyChain', function(accounts) {
         
 
         // Verify the result set
-              
+
     })    
 
     // 7th Test
@@ -192,7 +176,7 @@ contract('SupplyChain', function(accounts) {
         
 
         // Verify the result set
-             
+
     })    
 
     // 8th Test
