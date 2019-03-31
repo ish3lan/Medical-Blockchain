@@ -147,8 +147,8 @@ contract SupplyChain is PharmacistRole, PatientRole, ManufacturerRole, Distribut
   // and set 'upc' to 1
   constructor() public payable {
     owner = msg.sender;
-    sku = 1;
-    upc = 1;
+    sku = 0;
+    upc = 0;
   }
 
   // Define a function 'kill' if required
@@ -313,13 +313,13 @@ contract SupplyChain is PharmacistRole, PatientRole, ManufacturerRole, Distribut
   function fetchMedicineBufferOne(uint _upc) public view returns 
   (
     uint    medicineSKU,
-    // uint    medicineUPC,
+    uint    medicineUPC,
     address ownerID,
     address originManufacturerID,
     string  originFactoryName,
     string  originFactoryInformation,
-    string  originFactoryLatitude,
-    string  originFactoryLongitude
+    string  originFactoryLatitude
+    // string  originFactoryLongitude
     ) 
   {
   // Assign values to the 7 parameters
@@ -328,22 +328,23 @@ contract SupplyChain is PharmacistRole, PatientRole, ManufacturerRole, Distribut
   return 
   (
     medicines[_upc].sku,
-    // medicines[_upc].upc,
+    medicines[_upc].upc,
     medicines[_upc].ownerID,
     medicines[_upc].originManufacturerID,
     medicines[_upc].originFactoryName,
     medicines[_upc].originFactoryInformation,
-    medicines[_upc].originFactoryLatitude,
-    medicines[_upc].originFactoryLongitude
+    medicines[_upc].originFactoryLatitude
+    // medicines[_upc].originFactoryLongitude
     );
 }
 
   // Define a function 'fetchMedicineBufferTwo' that fetches the data
   function fetchMedicineBufferTwo(uint _upc) public view returns 
   (
-    uint    medicineSKU,
+    // uint    medicineSKU,
     // uint    medicineUPC,
     // uint    medicineID,
+    string  originFactoryLongitude,
     string  medicineNotes,
     uint    medicinePrice,
     State    medicineState,
@@ -357,9 +358,10 @@ contract SupplyChain is PharmacistRole, PatientRole, ManufacturerRole, Distribut
     
     return 
     (
-      medicines[_upc].sku,
+      // medicines[_upc].sku,
       // medicines[_upc].upc,
       // medicines[_upc].medicineID,
+      medicines[_upc].originFactoryLongitude,
       medicines[_upc].medicineNotes,
       medicines[_upc].medicinePrice,
       medicines[_upc].medicineState,
@@ -374,7 +376,7 @@ contract SupplyChain is PharmacistRole, PatientRole, ManufacturerRole, Distribut
   (
     uint    medicineSKU,
     uint    medicineUPC,
-    uint    medicineID,
+    uint    medicineID
     ) 
   {
     // Assign values to the 3 parameters
@@ -384,7 +386,7 @@ contract SupplyChain is PharmacistRole, PatientRole, ManufacturerRole, Distribut
     (
       medicines[_upc].sku,
       medicines[_upc].upc,
-      medicines[_upc].medicineID,
+      medicines[_upc].medicineID
       
       );
   }
