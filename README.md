@@ -1,3 +1,53 @@
+
+# Architect a Blockchain Medical Supply Chain Solution
+_Udacity Blockchain Nanodegree - Project 7_
+
+<br>
+##Project write-up: <br> 
+
+  - UML: <br>
+
+    - State Diagram: <br>
+
+      <img src="State.png">
+
+    - Activity Diagram: <br>
+
+      <img src="Activity.png">
+
+    - Data Model Diagram: <br>
+
+      <img src="Data Model.png">
+
+    - Sequence Diagram: <br>
+
+      <img src="Sequence.png">
+  - Libraries Documentation: <br>
+  
+
+
+  - IPFS Documentation: <br>
+    IPFS is not used to host static files such as html/js/css/imgs. IPFS should ensure full decentralization of this project.
+
+
+
+  - HD Wallet: <br>
+    Connecting to rinkeby network using infura
+
+
+
+
+
+
+  - Versions: <br>
+  *Node:* v11.2.0
+  *Truffle:*
+  *Web3:*
+  
+
+
+
+
 # Medical-Blockchain
 This blockchain dapp shows the contribution it can add to the medical field, by tracking medicine from the moment it is manufactured till it reaches the patient.
 
