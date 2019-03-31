@@ -103,19 +103,23 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
-        
+        var eventEmitted = false
         
         // Watch the emitted event ForSale()
-        
+        supplyChain.ForSale((err, res) => {
+            eventEmitted = true;
+        })
+
 
         // Mark an medicine as ForSale by calling function sellMedicine()
-        
+        await supplyChain.sellMedicine(upc,web3.utils.toWei("1", "ether"))
 
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
+        const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
         
-
-        // Verify the result set
-
+        assert.equal(resultBufferTwo[3], 2, 'Error: Invalid medicine State')
+        assert.equal(eventEmitted, true, 'Invalid event emitted')    
+       
     })    
 
     // 5th Test
@@ -123,41 +127,53 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
-        
+        var eventEmitted = false
         
         // Watch the emitted event Sold()
-        var event = supplyChain.Sold()
-        
+        supplyChain.Sold((err, res) => {
+            eventEmitted = true;
+        })
+
 
         // Mark an medicine as Sold by calling function buyMedicine()
-        
+        await supplyChain.buyMedicine(upc,{value: web3.utils.toWei('1', 'ether') })
 
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
+        const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
+        
+        assert.equal(resultBufferTwo[3], 3, 'Error: Invalid medicine State')
+        assert.equal(eventEmitted, true, 'Invalid event emitted')    
+       
+    })    
         
 
-        // Verify the result set
-        
-    })    
 
     // 6th Test
     it("Testing smart contract function shipMedicine() that allows a distributor to ship medicine", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
-        
-        
-        // Watch the emitted event Shipped()
-        
+        var eventEmitted = false
+        assert.equal(1, 1, )
 
-        // Mark an medicine as Sold by calling function buyMedicine()
-        
+        // Watch the emitted event Packed()
+        supplyChain.Shipped((err, res) => {
+            eventEmitted = true;
+        })
+        await supplyChain.addManufacturer(originManufacturerID)
 
+
+        // Mark an medicine as Shipped by calling function shipMedicine()
+        await supplyChain.shipMedicine(upc,{from: originManufacturerID})
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
+        const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
         
-
-        // Verify the result set
-
+        assert.equal(resultBufferTwo[3], 4, 'Error: Invalid medicine State')
+        assert.equal(eventEmitted, true, 'Invalid event emitted')    
+       
     })    
+
+  
 
     // 7th Test
     it("Testing smart contract function receiveMedicine() that allows a pharmacist to mark medicine received", async() => {
@@ -165,17 +181,23 @@ contract('SupplyChain', function(accounts) {
         
         // Declare and Initialize a variable for event
         
+        var eventEmitted = false
         
         // Watch the emitted event Received()
-        
+        supplyChain.Received((err, res) => {
+            eventEmitted = true;
+        })
 
-        // Mark an medicine as Sold by calling function buyMedicine()
-        
+
+        // Mark an medicine as Reiceived by calling function receiveMedicine()
+        await supplyChain.receiveMedicine(upc)
 
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
+        const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
         
-
-        // Verify the result set
+        assert.equal(resultBufferTwo[3], 5, 'Error: Invalid medicine State')
+        assert.equal(eventEmitted, true, 'Invalid event emitted')    
+       
 
     })    
 
@@ -185,20 +207,29 @@ contract('SupplyChain', function(accounts) {
         
         // Declare and Initialize a variable for event
         
+        var eventEmitted = false
         
         // Watch the emitted event Purchased()
-        
+        supplyChain.Purchased((err, res) => {
+            eventEmitted = true;
+        })
 
-        // Mark an medicine as Sold by calling function buyMedicine()
-        
+
+        // Mark an medicine as Purchased by calling function purchaseMedicine()
+        await supplyChain.purchaseMedicine(upc)
 
         // Retrieve the just now saved medicine from blockchain by calling function fetchMedicine()
+        const resultBufferTwo = await supplyChain.fetchMedicineBufferTwo.call(upc)
         
-
-        // Verify the result set
+        assert.equal(resultBufferTwo[3], 6, 'Error: Invalid medicine State')
+        assert.equal(eventEmitted, true, 'Invalid event emitted')    
+       
+    
         
     })    
 
+
+// Deleted as I have already tested them in the first case
     // 9th Test
     it("Testing smart contract function fetchMedicineBufferOne() that allows anyone to fetch medicine details from blockchain", async() => {
         const supplyChain = await SupplyChain.deployed()
