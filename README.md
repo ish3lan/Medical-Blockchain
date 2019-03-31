@@ -43,6 +43,8 @@ _Udacity Blockchain Nanodegree - Project 7_
   *Node:* v11.2.0 <br>
   *Truffle:* v5.0.2 (core: 5.0.2) <br>
   *Solidity* 0.4.24 (solc-js) <br>
+  *Web3:* 1.0.0-beta.51 <br>
+
   
 
 
